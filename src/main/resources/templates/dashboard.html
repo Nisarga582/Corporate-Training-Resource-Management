@@ -1,0 +1,247 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard | TrainOps</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <a class="brand" href="/">
+            <span class="brand-mark small">T</span>
+            <span>
+                TrainOps
+                <small>INFRASTRUCTURE SUITE</small>
+            </span>
+        </a>
+
+        <div class="nav-label">WORKSPACE</div>
+
+        <a class="nav active" href="/">
+            ▦ <span>Dashboard</span>
+        </a>
+
+        <div class="nav-label">MANAGEMENT</div>
+
+        <a class="nav"
+           th:each="m : ${modules}"
+           th:href="@{'/modules/' + ${m.key()}}">
+            ◇ <span th:text="${m.title()}"></span>
+        </a>
+
+        <a class="nav" href="/allocation">
+            ⇄ <span>Resource Allocation</span>
+        </a>
+
+        <a class="nav" href="/modules/maintenance">
+            ⚙ <span>Maintenance</span>
+        </a>
+
+        <!-- User information -->
+        <div class="sidebar-bottom">
+
+            <span class="avatar">U</span>
+
+            <div>
+                <b th:text="${username}">user</b>
+                <small>Signed in</small>
+            </div>
+
+            <form th:action="@{/logout}" method="post">
+                <button class="logout">↗</button>
+            </form>
+
+        </div>
+
+    </aside>
+
+    <!-- Main content -->
+    <main class="main">
+
+        <!-- Header -->
+        <header class="topbar">
+
+            <div>
+                <p class="eyebrow">OVERVIEW</p>
+
+                <h1>
+                    Good day,
+                    <span th:text="${username}">User</span>
+                </h1>
+
+                <p class="muted">
+                    Here’s what’s happening across your training infrastructure.
+                </p>
+            </div>
+
+            <span class="date-chip" id="today"></span>
+
+        </header>
+
+        <!-- Statistics -->
+        <section class="stats">
+
+            <article class="stat">
+                <span class="stat-icon blue">▤</span>
+                <p>Courses</p>
+                <strong th:text="${courses}">0</strong>
+                <small>Registered programs</small>
+            </article>
+
+            <article class="stat">
+                <span class="stat-icon violet">▣</span>
+                <p>Training batches</p>
+                <strong th:text="${batches}">0</strong>
+                <small>Planned and active</small>
+            </article>
+
+            <article class="stat">
+                <span class="stat-icon teal">♙</span>
+                <p>Trainers</p>
+                <strong th:text="${trainers}">0</strong>
+                <small>Trainer profiles</small>
+            </article>
+
+            <article class="stat">
+                <span class="stat-icon orange">⌂</span>
+                <p>Learning spaces</p>
+                <strong th:text="${classrooms + labs}">0</strong>
+                <small>Classrooms and labs</small>
+            </article>
+
+            <article class="stat alert-stat">
+                <span class="stat-icon red">!</span>
+                <p>Open conflicts</p>
+                <strong th:text="${conflicts}">0</strong>
+                <small>Require attention</small>
+            </article>
+
+        </section>
+
+        <!-- Dashboard content -->
+        <section class="content-grid">
+
+            <!-- Upcoming batches -->
+            <article class="panel wide">
+
+                <div class="panel-head">
+
+                    <div>
+                        <h2>Upcoming training batches</h2>
+                        <p class="muted">Upcoming scheduled programs</p>
+                    </div>
+
+                    <a href="/modules/batches" class="text-link">
+                        View batches →
+                    </a>
+
+                </div>
+
+                <div class="table-wrap">
+
+                    <table>
+
+                        <thead>
+                        <tr>
+                            <th>Batch</th>
+                            <th>Course</th>
+                            <th>Start date</th>
+                            <th>Students</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+
+                        <tr th:each="b : ${upcoming}">
+
+                            <td class="strong"
+                                th:text="${b.batch_name}">
+                            </td>
+
+                            <td th:text="${b.course_name}"></td>
+
+                            <td th:text="${b.start_date}"></td>
+
+                            <td th:text="${b.student_count}"></td>
+
+                        </tr>
+
+                        <tr th:if="${#lists.isEmpty(upcoming)}">
+                            <td colspan="4" class="empty">
+                                No upcoming batches.
+                            </td>
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </article>
+
+            <!-- Quick actions -->
+            <article class="panel">
+
+                <div class="panel-head">
+
+                    <div>
+                        <h2>Quick actions</h2>
+                        <p class="muted">Common tasks</p>
+                    </div>
+
+                </div>
+
+                <div class="quick-links">
+
+                    <a href="/modules/courses">
+                        ＋ Add a course
+                    </a>
+
+                    <a href="/modules/batches">
+                        ＋ Create a batch
+                    </a>
+
+                    <a href="/allocation">
+                        ⇄ Allocate a resource
+                    </a>
+
+                    <a href="/modules/maintenance">
+                        ⚙ Schedule maintenance
+                    </a>
+
+                </div>
+
+            </article>
+
+        </section>
+
+        <footer>
+            TrainOps · Corporate Training Resource & Lab Infrastructure Management
+        </footer>
+
+    </main>
+
+</div>
+
+<script>
+    document.getElementById('today').textContent =
+        new Date().toLocaleDateString(undefined, {
+            weekday: 'short',
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+        });
+</script>
+
+</body>
+</html>

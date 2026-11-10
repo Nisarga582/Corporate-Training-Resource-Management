@@ -1,0 +1,63 @@
+{
+  "info": {
+    "name": "Corporate Training Platform API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "List module definitions",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8080/api/modules"
+      }
+    },
+    {
+      "name": "List courses",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8080/api/modules/courses"
+      }
+    },
+    {
+      "name": "Create course",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"course_name\":\"Spring Boot Fundamentals\",\"duration_weeks\":6,\"technology_requirements\":\"Java, Spring Boot, MySQL\",\"description\":\"API test course\"}"
+        },
+        "url": "http://localhost:8080/api/modules/courses"
+      }
+    },
+    {
+      "name": "List allocations",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8080/api/allocations"
+      }
+    },
+    {
+      "name": "Create allocation",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"batch_id\":1,\"resource_type\":\"LAB\",\"resource_id\":1,\"session_date\":\"2030-11-12\",\"start_time\":\"09:00\",\"end_time\":\"12:00\",\"trainer_id\":1}"
+        },
+        "url": "http://localhost:8080/api/allocations"
+      }
+    }
+  ]
+}

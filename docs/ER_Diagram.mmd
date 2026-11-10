@@ -1,0 +1,25 @@
+erDiagram
+  COURSES ||--o{ BATCHES : contains
+  BATCHES ||--o{ BATCH_REQUIREMENTS : needs
+  BATCHES ||--o{ ALLOCATIONS : receives
+  BATCHES ||--o{ TRAINER_ASSIGNMENTS : assigned
+  TRAINERS ||--o{ TRAINER_ASSIGNMENTS : teaches
+  COURSES ||--o{ COURSE_SOFTWARE : requires
+  SOFTWARE ||--o{ COURSE_SOFTWARE : required_by
+  COMPUTER_LABS ||--o{ LAB_SOFTWARE : installs
+  SOFTWARE ||--o{ LAB_SOFTWARE : installed_as
+  BATCHES ||--o{ CONFLICT_RECORDS : has
+  COURSES { bigint id PK string course_name int duration_weeks }
+  BATCHES { bigint id PK bigint course_id FK string batch_name int student_count }
+  TRAINERS { bigint id PK string trainer_name string email }
+  TRAINER_ASSIGNMENTS { bigint id PK bigint batch_id FK bigint trainer_id FK }
+  CLASSROOMS { bigint id PK string classroom_name int capacity }
+  COMPUTER_LABS { bigint id PK string lab_name int system_count int capacity }
+  SOFTWARE { bigint id PK string software_name string version }
+  COURSE_SOFTWARE { bigint id PK bigint course_id FK bigint software_id FK }
+  LAB_SOFTWARE { bigint id PK bigint lab_id FK bigint software_id FK }
+  BATCH_REQUIREMENTS { bigint id PK bigint batch_id FK int systems_needed }
+  ALLOCATIONS { bigint id PK bigint batch_id FK string resource_type bigint resource_id }
+  MAINTENANCE { bigint id PK string resource_type bigint resource_id }
+  CONFLICT_RECORDS { bigint id PK bigint batch_id FK string status }
+  AUDIT_HISTORY { bigint id PK string entity_type bigint entity_id }

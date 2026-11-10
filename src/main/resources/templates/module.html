@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${module.title()} + ' | TrainOps'">Module</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+
+<body>
+
+<div class="layout">
+
+    <aside class="sidebar">
+
+        <a class="brand" href="/">
+            <span class="brand-mark small">T</span>
+            <span>TrainOps
+                <small>INFRASTRUCTURE SUITE</small>
+            </span>
+        </a>
+
+        <div class="nav-label">WORKSPACE</div>
+
+        <a class="nav" href="/">▦ <span>Dashboard</span></a>
+
+        <div class="nav-label">MANAGEMENT</div>
+
+        <a class="nav"
+           th:each="m : ${modules}"
+           th:classappend="${m.key() == module.key() ? ' active' : ''}"
+           th:href="@{'/modules/' + ${m.key()}}">
+            ◇ <span th:text="${m.title()}"></span>
+        </a>
+
+        <a class="nav" href="/allocation">
+            ⇄ <span>Resource Allocation</span>
+        </a>
+
+        <div class="sidebar-bottom">
+
+            <span class="avatar">U</span>
+
+            <div>
+                <b th:text="${username}">User</b>
+                <small>Signed in</small>
+            </div>
+
+            <form th:action="@{/logout}" method="post">
+                <button class="logout">↗</button>
+            </form>
+
+        </div>
+
+    </aside>
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <div>
+                <p class="eyebrow">MANAGEMENT / MASTER DATA</p>
+
+                <h1 th:text="${module.title()}">Module</h1>
+
+                <p class="muted">
+                    Create, review and maintain records for this module.
+                </p>
+            </div>
+
+            <button class="btn primary" onclick="openForm()">
+                ＋ Add record
+            </button>
+
+        </header>
+
+        <div id="notice"></div>
+
+        <section class="panel">
+
+            <div class="panel-head">
+
+                <div>
+                    <h2>Records</h2>
+                    <p class="muted">
+                        Records stored in your MySQL database
+                    </p>
+                </div>
+
+                <button class="btn light" onclick="loadRows()">
+                    ↻ Refresh
+                </button>
+
+            </div>
+
+            <div class="table-wrap">
+
+                <table id="records">
+                    <thead></thead>
+                    <tbody></tbody>
+                </table>
+
+            </div>
+
+        </section>
+
+        <div class="modal-backdrop" id="modal">
+
+            <div class="modal">
+
+                <div class="panel-head">
+
+                    <div>
+                        <h2 id="form-title">Add record</h2>
+                        <p class="muted">Complete the fields below.</p>
+                    </div>
+
+                    <button class="logout" onclick="closeForm()">✕</button>
+
+                </div>
+
+                <form id="record-form">
+
+                    <div id="fields" class="form-grid"></div>
+
+                    <div class="form-actions">
+
+                        <button type="button"
+                                class="btn light"
+                                onclick="closeForm()">
+                            Cancel
+                        </button>
+
+                        <button type="submit" class="btn primary">
+                            Save record
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <footer>
+            TrainOps · Changes are saved to MySQL
+        </footer>
+
+    </main>
+
+</div>
+
+<script th:inline="javascript">
+    const moduleKey = /*[[${module.key()}]]*/ 'courses';
+    const moduleTitle = /*[[${module.title()}]]*/ 'Module';
+</script>
+
+<script th:src="@{/js/module.js}"></script>
+
+</body>
+</html>
